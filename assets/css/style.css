@@ -1,0 +1,347 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+:root {
+    --cursor-size: 10px;
+}
+
+body {
+    margin: 0;
+    background-color: #0a0a0a;
+    color: #f4f4f4;
+    overflow-x: hidden;
+    cursor: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis Setup */
+html.lenis {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* Preloader */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: #0a0a0a;
+    z-index: 10000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 2vw;
+}
+
+#loader-counter {
+    font-size: 15vw;
+    line-height: 0.8;
+    font-weight: 300;
+}
+
+/* Custom Cursor */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    background: #f4f4f4;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#cursor.hover-view {
+    width: 90px;
+    height: 90px;
+    background: #f4f4f4;
+    mix-blend-mode: normal;
+}
+
+#cursor.hover-view::after {
+    content: "VIEW";
+    color: #0a0a0a;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Hover Reveal Images */
+#hover-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(600px, calc(100vw - 1rem));
+    pointer-events: none;
+    aspect-ratio: 16/9;
+    z-index: 0;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    overflow: hidden;
+}
+
+.hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.hover-image.active {
+    opacity: 1;
+}
+
+/* Utilities */
+.text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px #f4f4f4;
+}
+
+.clip-text {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.clip-text span {
+    display: inline-block;
+    transform: translateY(100%);
+}
+
+/* Project List Hover Styles */
+.project-row {
+    transition: color 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    z-index: 10;
+}
+
+.projects-wrapper:hover .project-row {
+    color: #333;
+}
+
+.projects-wrapper .project-row:hover {
+    color: #f4f4f4;
+    transform: translateX(2vw);
+}
+
+/* Services Stacked Cards */
+.service-card {
+    transform-origin: top center;
+    will-change: transform;
+}
+
+/* View Transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 0.6s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#project-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 9000;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: #0a0a0a;
+    color: #f4f4f4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#project-dialog[open] {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#dialog-title {
+    word-break: break-word;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Tech Stack Marquee */
+.marquee-section {
+    overflow: hidden;
+    padding: 3rem 0;
+    border-top: 1px solid rgba(244, 244, 244, 0.08);
+    border-bottom: 1px solid rgba(244, 244, 244, 0.08);
+    position: relative;
+    z-index: 10;
+    background: #0a0a0a;
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+}
+
+.marquee-track.forward {
+    animation: marquee-fwd 28s linear infinite;
+}
+
+.marquee-track.reverse {
+    animation: marquee-rev 28s linear infinite;
+    margin-top: 1.2rem;
+}
+
+
+@keyframes marquee-fwd {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes marquee-rev {
+    from {
+        transform: translateX(-50%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    white-space: nowrap;
+    font-size: clamp(1.1rem, 2.5vw, 2rem);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(244, 244, 244, 0.18);
+    transition: color 0.3s ease;
+}
+
+.marquee-item:hover {
+    color: #f4f4f4;
+}
+
+.marquee-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(244, 244, 244, 0.25);
+    flex-shrink: 0;
+}
+
+/* Fade edges */
+.marquee-section::before,
+.marquee-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 12vw;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.marquee-section::before {
+    left: 0;
+    background: linear-gradient(to right, #0a0a0a, transparent);
+}
+
+.marquee-section::after {
+    right: 0;
+    background: linear-gradient(to left, #0a0a0a, transparent);
+}
+
+/* Hero Portrait */
+.hero-portrait-wrap {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: clamp(260px, 70vw, 520px);
+    height: 75%;
+    overflow: hidden;
+    clip-path: inset(100% 0 0 0);
+    z-index: 1;
+}
+
+@media (min-width: 768px) {
+    .hero-portrait-wrap {
+        right: 6vw;
+        width: clamp(340px, 45vw, 520px);
+        height: 85%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-portrait-wrap {
+        right: 6vw;
+        width: clamp(400px, 30vw, 520px);
+        height: 90%;
+    }
+}
+
+.hero-portrait-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transform: translateY(8%) scale(1.08);
+    transform-origin: bottom center;
+    filter: grayscale(100%) contrast(1.05) brightness(0.9);
+    transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-portrait-wrap:hover img {
+    filter: grayscale(0%) contrast(1) brightness(1);
+}
+
+/* Vignette overlay on bottom of image so it fades into the dark bg */
+.hero-portrait-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top,
+            #0a0a0a 0%,
+            rgba(10, 10, 10, 0.5) 35%,
+            transparent 70%);
+    pointer-events: none;
+}
